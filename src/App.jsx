@@ -1,12 +1,20 @@
 import React, { useState } from "react"
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid' // it generates a random id
 
 
 function App() {
 
+  // render a task
   const [task, setTask] = useState('')
+  // render all tasks
   const [myTasks, setMyTasks] = useState([])
+  // render edit form for tasks
+  const [editMyTask, setEditMyTask] = useState(false)
+  // set the current id
+  const [id, setId] = useState('')
 
+
+  // Add a new task from the form
   const addTask = (e) => {
     e.preventDefault()
     console.log(task)
@@ -23,9 +31,37 @@ function App() {
     setTask('')
   }
 
+  // Remove a task when the user press the delete button
   const deleteTask = (id) => {
     const filteredArray = myTasks.filter(item => item.id !== id)
     setMyTasks(filteredArray)
+  }
+
+  // Edit a task created by pressing the edit button in the task list and using an edit form
+  const editTask = item => {
+    console.log(item)
+    setEditMyTask(true)
+    setTask(item.myTask)
+    setId(item.id)
+  }
+
+  // When the user press the edit button in the edit form
+  const editThisTask = e => {
+    e.preventDefault()
+    console.log(task)
+    if(!task.trim()){
+      console.log("Empty element")
+      return
+    } 
+
+    const editedArray =  myTasks.map(
+      item => item.id === id ? {id, myTask: task} : item
+    )
+
+    setMyTasks(editedArray)
+    setEditMyTask(false)
+    setTask('')
+    setId('')
   }
 
   return (
@@ -36,7 +72,8 @@ function App() {
         <div className="col-8">
           <h4 className="text-center">Tasks List</h4>
           <ul className="list-group">
-            {/* Render every task  */
+            {
+            /* Render every task  */
               myTasks.map(item => (
                 <li className="list-group-item" key={item.id}>
                   <span className="lead">{item.myTask}</span>
@@ -49,6 +86,7 @@ function App() {
 
                   <button 
                     className="btn btn-warning btn-sm float-end"
+                    onClick={() => editTask(item)}
                   >
                     Edit
                   </button>
@@ -58,8 +96,12 @@ function App() {
           </ul>
         </div>
         <div className="col-4">
-          <h4 className="text-center">Form</h4>
-          <form onSubmit={addTask}>
+          <h4 className="text-center">
+            {
+              editMyTask ? "Edit a task" : "Add a task"
+            }
+          </h4>
+          <form onSubmit={ editMyTask ? editThisTask : addTask }>
             <input 
               type="text" 
               className="form-control mb-2"
@@ -67,9 +109,17 @@ function App() {
               onChange={ (e) => setTask(e.target.value) }
               value={task} 
             />
-            <div className="d-grid gap-2">
-              <button className="btn btn-dark" type="submit">Add</button>
-            </div> 
+            {
+              editMyTask ? (
+                <div className="d-grid gap-2">
+                  <button className="btn btn-warning" type="submit">Edit</button>
+                </div> 
+              ) : (
+                <div className="d-grid gap-2">
+                  <button className="btn btn-dark" type="submit">Add</button>
+                </div> 
+              )
+            }
           </form>
         </div>
       </div>
