@@ -80,7 +80,7 @@ function App() {
         Simple App</h1>
       <hr />
       <div className="row">
-        <div className="col-8">
+        <div className="col-md-8 col-xs-12">
           <h4 className="text-center">Tasks List</h4>
           <ul className="list-group">
             {
@@ -122,7 +122,7 @@ function App() {
             }
           </ul>
         </div>
-        <div className="col-4">
+        <div className="col-md-4 col-xs-12">
           <h4 className="text-center">
             {
               editMyTask ? "Edit a task" : "Add a task"
