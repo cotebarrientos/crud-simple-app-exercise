@@ -12,6 +12,8 @@ function App() {
   const [editMyTask, setEditMyTask] = useState(false)
   // set the current id
   const [id, setId] = useState('')
+  // To show errors inside the form
+  const [error, setError] = useState(null)
 
 
   // Add a new task from the form
@@ -20,6 +22,7 @@ function App() {
     console.log(task)
     if(!task.trim()){
       console.log("Empty element")
+      setError("Please, you must write something in this field")
       return
     }
     console.log(task)
@@ -29,6 +32,7 @@ function App() {
     ])
 
     setTask('')
+    setError(null)
   }
 
   // Remove a task when the user press the delete button
@@ -51,6 +55,7 @@ function App() {
     console.log(task)
     if(!task.trim()){
       console.log("Empty element")
+      setError("Please, you must write something in this field")
       return
     } 
 
@@ -62,6 +67,7 @@ function App() {
     setEditMyTask(false)
     setTask('')
     setId('')
+    setError(null)
   }
 
   return (
@@ -74,24 +80,31 @@ function App() {
           <ul className="list-group">
             {
             /* Render every task  */
-              myTasks.map(item => (
-                <li className="list-group-item" key={item.id}>
-                  <span className="lead">{item.myTask}</span>
-                  <button 
-                    className="btn btn-danger btn-sm float-end mx-2"
-                    onClick={() => deleteTask(item.id)}
-                  >
-                    Delete
-                  </button>
 
-                  <button 
-                    className="btn btn-warning btn-sm float-end"
-                    onClick={() => editTask(item)}
-                  >
-                    Edit
-                  </button>
+              myTasks.length === 0 ? (
+                <li className="list-group-item">
+                  <span className="lead">Sorry, no items yet</span>
                 </li>
-              ))
+              ) : (
+                myTasks.map(item => (
+                  <li className="list-group-item" key={item.id}>
+                    <span className="lead">{item.myTask}</span>
+                    <button 
+                      className="btn btn-danger btn-sm float-end mx-2"
+                      onClick={() => deleteTask(item.id)}
+                    >
+                      Delete
+                    </button>
+  
+                    <button 
+                      className="btn btn-warning btn-sm float-end"
+                      onClick={() => editTask(item)}
+                    >
+                      Edit
+                    </button>
+                  </li>
+                ))
+              ) 
             }
           </ul>
         </div>
@@ -102,6 +115,11 @@ function App() {
             }
           </h4>
           <form onSubmit={ editMyTask ? editThisTask : addTask }>
+
+            {
+              error ? <span className="text-danger">{error}</span> : null
+            }
+
             <input 
               type="text" 
               className="form-control mb-2"
