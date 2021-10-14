@@ -72,7 +72,12 @@ function App() {
 
   return (
     <div className="container mt-5 ">
-      <h1 className="text-center">CRUD Simple App</h1>
+      <h1 className="text-center">
+        <span className="text-success">C</span>
+        <span className="text-primary">R</span>
+        <span className="text-warning">U</span>
+        <span className="text-danger">D </span>
+        Simple App</h1>
       <hr />
       <div className="row">
         <div className="col-8">
@@ -84,6 +89,9 @@ function App() {
               myTasks.length === 0 ? (
                 <li className="list-group-item">
                   <span className="lead">Sorry, no items yet</span>
+                  <span className="padding-icons">
+                  <i className="far fa-frown"></i>
+                  </span>
                 </li>
               ) : (
                 myTasks.map(item => (
@@ -93,14 +101,20 @@ function App() {
                       className="btn btn-danger btn-sm float-end mx-2"
                       onClick={() => deleteTask(item.id)}
                     >
-                      Delete
+                      <span className="text-uppercase">Delete</span>
+                      <span className="padding-icons">
+                        <i className="far fa-trash-alt"></i>
+                      </span>  
                     </button>
   
                     <button 
                       className="btn btn-warning btn-sm float-end"
                       onClick={() => editTask(item)}
                     >
-                      Edit
+                      <span className="text-uppercase">Edit</span>
+                      <span className="padding-icons">
+                        <i className="fas fa-pen"></i>
+                      </span> 
                     </button>
                   </li>
                 ))
@@ -130,11 +144,21 @@ function App() {
             {
               editMyTask ? (
                 <div className="d-grid gap-2">
-                  <button className="btn btn-warning" type="submit">Edit</button>
+                  <button className="btn btn-warning" type="submit">
+                    <span className="text-uppercase">Edit</span>
+                    <span className="padding-icons">
+                      <i className="fas fa-edit"></i>
+                    </span>
+                  </button>
                 </div> 
               ) : (
                 <div className="d-grid gap-2">
-                  <button className="btn btn-dark" type="submit">Add</button>
+                  <button className="btn btn-dark" type="submit">
+                    <span className="text-uppercase">Add</span>
+                    <span className="padding-icons">
+                      <i className="far fa-plus-square"></i>
+                    </span>
+                    </button>
                 </div> 
               )
             }
