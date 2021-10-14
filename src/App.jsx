@@ -23,6 +23,11 @@ function App() {
     setTask('')
   }
 
+  const deleteTask = (id) => {
+    const filteredArray = myTasks.filter(item => item.id !== id)
+    setMyTasks(filteredArray)
+  }
+
   return (
     <div className="container mt-5 ">
       <h1 className="text-center">CRUD Simple App</h1>
@@ -35,8 +40,18 @@ function App() {
               myTasks.map(item => (
                 <li className="list-group-item" key={item.id}>
                   <span className="lead">{item.myTask}</span>
-                  <button className="btn btn-danger btn-sm float-end mx-2">Delete</button>
-                  <button className="btn btn-warning btn-sm float-end">Edit</button>
+                  <button 
+                    className="btn btn-danger btn-sm float-end mx-2"
+                    onClick={() => deleteTask(item.id)}
+                  >
+                    Delete
+                  </button>
+
+                  <button 
+                    className="btn btn-warning btn-sm float-end"
+                  >
+                    Edit
+                  </button>
                 </li>
               ))
             }
